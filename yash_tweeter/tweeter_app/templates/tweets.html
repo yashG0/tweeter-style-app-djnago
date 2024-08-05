@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+	TweetX: All tweets
+{% endblock %}
+
+{% block content %}
+    <h1>My Tweets</h1>
+    <div class="container row gap-4">
+        {% for tweet in tweets %}
+            <div class="card" style="width: 18rem;">
+                {% if tweet.photo %}
+                    <img src="{{ tweet.photo.url }}" class="card-img-top" alt="tweet photo">
+                {% else %}
+                    <img src="{% static 'default.jpg' %}" class="card-img-top" alt="default photo">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ tweet.user.username }}</h5>
+                    <p class="card-text">{{ tweet.text }}</p>
+                    {% if tweet.user == user %}
+                        <a href="{% url 'editTweet' tweet.id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'removeTweet' tweet.id %}" class="btn btn-danger">Remove</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
